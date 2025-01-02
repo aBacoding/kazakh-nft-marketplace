@@ -1,10 +1,11 @@
-import { ModeToggle } from '@/widgets/mode-toggle/mode-toggle'
+import { ActionButtons } from '@/widgets/action-buttons/action-buttons'
+import { Route, Routes } from 'react-router-dom'
 
 function App() {
   return (
-    <>
-      <ModeToggle />
-    </>
+    <Routes>
+      <Route path="/" element={<ActionButtons />} />
+    </Routes>
   )
 }
 
