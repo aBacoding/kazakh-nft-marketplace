@@ -7,13 +7,22 @@ import '@/shared/assets/styles/index.css'
 import '@/shared/assets/styles/app.scss'
 import Layout from '@/shared/ui/layouts/layout'
 import { BrowserRouter as Router } from 'react-router-dom'
+import AuthLayout from './shared/ui/layouts/auth'
+
+const path = window.location.pathname
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Router>
-      <Layout>
-        <App />
-      </Layout>
+      {path.includes('sign') ? (
+        <AuthLayout>
+          <App />
+        </AuthLayout>
+      ) : (
+        <Layout>
+          <App />
+        </Layout>
+      )}
     </Router>
   </React.StrictMode>
 )
