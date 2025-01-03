@@ -93,20 +93,20 @@ const data = {
     },
     {
       title: 'About us',
-      url: '/about',
+      url: '/about-us',
       icon: Info,
       items: [
         {
           title: 'Developers',
-          url: '/about/developers',
+          url: '/about-us/developers',
         },
         {
           title: 'Contact us',
-          url: '/about/contact',
+          url: '/about-us/contact',
         },
         {
           title: 'Terms of service',
-          url: '/about/terms',
+          url: '/about-us/terms',
         },
       ],
     },

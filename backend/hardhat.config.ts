@@ -1,8 +1,13 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
+require("@nomiclabs/hardhat-ethers")
 
-const config: HardhatUserConfig = {
-  solidity: "0.8.28",
-};
-
-export default config;
+module.exports = {
+	solidity: "0.8.17",
+	networks: {
+		hardhat: {
+			chainId: 1337,
+		},
+		localhost: {
+			url: "http://127.0.0.1:8545",
+		},
+	},
+}
