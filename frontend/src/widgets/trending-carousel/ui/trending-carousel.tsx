@@ -43,6 +43,7 @@ export const TrendingCarousel = () => {
         </div>
       </CarouselItem>)
   })
+
   const progressItem = <Progress className="w-3/4 m-auto mt-1" value={scrollProgress} />
 
 
