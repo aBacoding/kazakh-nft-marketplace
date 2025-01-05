@@ -41,12 +41,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           <SidebarProvider>
             <AppSidebar />
-            <main className="flex flex-col gap-4 w-full min-h-screen p-3">
-              <header className="flex flex-row justify-between h-fit w-full">
+            <main className="flex flex-col gap-4 w-full min-h-screen">
+              <header className="flex flex-row justify-between items-center h-fit w-full p-3 sticky top-0 z-10 bg-background">
                 <SidebarTrigger />
                 <ActionButtons />
               </header>
-              <div className="w-full px-2 pb-4">{children}</div>
+              <div className="w-full px-2 pb-4 relative">{children}</div>
             </main>
           </SidebarProvider>
         </ThemeProvider>

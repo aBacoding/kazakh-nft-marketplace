@@ -8,7 +8,7 @@ const RegisterPage = React.lazy(() =>
 )
 
 export const RegisterRoutes = {
-  path: '/sign/in',
+  path: '/sign/up',
   element: (
     <SuspenseLayout>
       <RegisterPage />

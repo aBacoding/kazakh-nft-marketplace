@@ -3,12 +3,22 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const dotenv = require("dotenv")
 const authRoutes = require("./routes/auth")
+const cors = require("cors")
 
 dotenv.config()
 
 const app = express()
 
 app.use(bodyParser.json())
+
+app.use(
+	cors({
+		origin: process.env.FRONTEND_URL,
+		credentials: true,
+		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+		allowedHeaders: ["Content-Type", "Authorization"],
+	})
+)
 
 app.use("/api/auth", authRoutes)
 
