@@ -19,6 +19,9 @@ import {
 } from '@/shared/ui/native/sidebar'
 import { getInitials } from '@/shared/lib/utils'
 import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { useDispatch } from 'react-redux'
+import { clearUser } from '@/modules/register'
 
 export function NavUser({
   user,
@@ -30,9 +33,15 @@ export function NavUser({
     avatar: string
   }
 }) {
+  const dispatch = useDispatch()
   const { isMobile } = useSidebar()
 
   const navigate = useNavigate()
+
+  const handleLogout = () => {
+    Cookies.remove('token')
+    dispatch(clearUser())
+  }
 
   return (
     <SidebarMenu>
@@ -91,7 +100,7 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

@@ -1,6 +1,5 @@
 'use client'
 import * as React from 'react'
-import { BarChart, Compass, Home, Info, Plus } from 'lucide-react'
 import { NavMain } from '@/widgets/nav/nav-main'
 import { NavUser } from '@/widgets/nav/nav-user'
 import {
@@ -9,120 +8,78 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from '@/shared/ui/native/sidebar'
 import { NavHeader } from '../nav/nav-header'
+import { useSelector } from 'react-redux'
+import Cookies from 'js-cookie'
+import { RootState } from '@/app/store/store'
+import { sidebarData } from '@/shared/models/const'
+import { Button } from '@/shared/ui/native/button'
+import { LogIn, UserRoundPlus } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-const data = {
-  user: {
-    first_name: 'Test',
-    last_name: 'Testov',
-    email: 'test@example.com',
-    avatar: 'https://avatars.githubusercontent.com/u/124599?v=4',
-  },
-  navMain: [
-    {
-      title: 'Home',
-      url: '/',
-      icon: Home,
-      isActive: true,
-    },
-    {
-      title: 'Explore',
-      url: '/explore',
-      icon: Compass,
-      items: [
-        {
-          title: 'All NFTs',
-          url: '/explore/all-nfts',
-        },
-        {
-          title: 'Live Auctions',
-          url: '/explore/live-auctions',
-        },
-        {
-          title: 'Trending',
-          url: '/explore/trending',
-        },
-        {
-          title: 'My Liked NFTs',
-          url: '/explore/my-liked-nfts',
-        },
-        {
-          title: 'My NFTs',
-          url: '/explore/my-nfts',
-        },
-        {
-          title: 'My Collections',
-          url: '/explore/my-collections',
-        },
-        {
-          title: 'My Bids',
-          url: '/explore/my-bids',
-        },
-      ],
-    },
-    {
-      title: 'Dashboard',
-      url: '/dashboard',
-      icon: BarChart,
-      items: [
-        {
-          title: 'Top sellers',
-          url: '/dashboard/top-sellers',
-        },
-        {
-          title: 'Top NFTs',
-          url: '/dashboard/top-nfts',
-        },
-      ],
-    },
-    {
-      title: 'Create',
-      url: '/create',
-      icon: Plus,
-      items: [
-        {
-          title: 'Create NFT',
-          url: '/create/nft',
-        },
-        {
-          title: 'Create Collection',
-          url: '/create/collection',
-        },
-      ],
-    },
-    {
-      title: 'About us',
-      url: '/about-us',
-      icon: Info,
-      items: [
-        {
-          title: 'Developers',
-          url: '/about-us/developers',
-        },
-        {
-          title: 'Contact us',
-          url: '/about-us/contact',
-        },
-        {
-          title: 'Terms of service',
-          url: '/about-us/terms',
-        },
-      ],
-    },
-  ],
-}
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const navigate = useNavigate()
+  const user = useSelector((state: RootState) => state.register.user)
+  const token = Cookies.get('token')
+  const { state } = useSidebar()
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <NavHeader />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain as any} />
+        <NavMain items={sidebarData.navMain as any} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user as any} />
+        {user && token ? (
+          <NavUser user={user as any} />
+        ) : state === 'expanded' ? (
+          <div className="flex flex-col gap-2">
+            <span className="italic text-muted-foreground text-sm">
+              There's no account?
+            </span>
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                type="button"
+                className="flex items-center justify-center"
+                onClick={() => navigate('/sign/in')}
+              >
+                Sign In <LogIn size={16} />
+              </Button>
+              <Button
+                type="button"
+                className="flex items-center justify-center"
+                onClick={() => navigate('/sign/up')}
+              >
+                Sign Up <UserRoundPlus size={16} />
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <Button
+              type="button"
+              className="flex items-center justify-center"
+              onClick={() => {
+                navigate('/sign/in')
+              }}
+            >
+              <LogIn size={16} className="max-w-none" />
+            </Button>
+            <Button
+              type="button"
+              className="flex items-center justify-center"
+              onClick={() => {
+                navigate('/sign/up')
+              }}
+            >
+              <UserRoundPlus size={16} className="max-w-none" />
+            </Button>
+          </div>
+        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

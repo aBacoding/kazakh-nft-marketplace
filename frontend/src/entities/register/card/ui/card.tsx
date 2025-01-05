@@ -113,7 +113,7 @@ export const RegisterCard = () => {
     registerUser(formData)
   }
 
-  if (localStorage.getItem('token')) {
+  if (Cookies.get('token')) {
     return <Navigate to="/" replace />
   }
 
