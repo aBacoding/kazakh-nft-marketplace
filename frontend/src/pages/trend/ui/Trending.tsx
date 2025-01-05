@@ -1,9 +1,7 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { TrendingCarousel } from '@/widgets/trending-carousel';
+import { TrendingCarousel } from '@/widgets/trending-carousel'
 
 export const Trending = () => {
-    return (
-        <TrendingCarousel/>
-    );
+  return <TrendingCarousel />
 }

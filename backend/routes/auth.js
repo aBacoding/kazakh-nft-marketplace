@@ -85,7 +85,14 @@ router.post("/login", async (req, res) => {
 			process.env.JWT_SECRET,
 			{ expiresIn: "1h" }
 		)
-		res.json({ token })
+
+		const userWithoutPassword = await User.findById(user._id).select(
+			"-password"
+		)
+		res.json({
+			token,
+			user: userWithoutPassword,
+		})
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message })
 	}
