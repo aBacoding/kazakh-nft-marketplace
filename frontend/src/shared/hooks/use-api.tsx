@@ -1,7 +1,13 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import apiClient from '@/shared/api/axios'
 
-export const useApi = ({ url, method = 'GET', options = {} }) => {
+interface UseApiParams {
+  url: string
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
+  options?: any
+}
+
+export const useApi = ({ url, method = 'GET', options = {} }: UseApiParams) => {
   if (method === 'GET') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useQuery({

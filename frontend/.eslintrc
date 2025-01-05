@@ -34,7 +34,7 @@
       }
     ],
     "@typescript-eslint/no-inferrable-types": "off",
-    "no-console": ["warn", { "allow": ["debug", "warn", "error"] }],
+    "no-console": "off",
     "no-extra-boolean-cast": "off"
   }
 }

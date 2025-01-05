@@ -5,7 +5,6 @@ import { Trending } from '../pages/trend/ui/Trending';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<></>} />
       <Route {...RegisterRoutes} />
       <Route path ="/explore/trending" element = {<Trending/>} />
     </Routes>
