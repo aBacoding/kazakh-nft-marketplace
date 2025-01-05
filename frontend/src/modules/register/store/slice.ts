@@ -1,19 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RegisterFormData } from '@/entities/register/card/model/types'
 
-const registerSlice = createSlice({
+interface RegisterState {
+  user: RegisterFormData | null
+}
+
+const initialState: RegisterState = {
+  user: JSON.parse(localStorage.getItem('user') || 'null'),
+}
+
+export const registerSlice = createSlice({
   name: 'register',
-  initialState: {
-    user: null,
-    token: null,
-  },
+  initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload.user
-      state.token = action.payload.token
+    setUser: (state, action: PayloadAction<RegisterFormData>) => {
+      state.user = action.payload
+      localStorage.setItem('user', JSON.stringify(action.payload))
     },
     clearUser: (state) => {
       state.user = null
-      state.token = null
+      localStorage.removeItem('user')
     },
   },
 })

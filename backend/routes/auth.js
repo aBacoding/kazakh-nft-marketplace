@@ -6,20 +6,27 @@ const authenticateToken = require("../middleware/auth")
 const router = express.Router()
 
 router.post("/register", async (req, res) => {
-	const { first_name, last_name, email, username, avatar, password } = req.body
+	const { first_name, last_name, email, username, avatar, password, iin } =
+		req.body
 
-	if (!first_name || !last_name || !email || !username || !password) {
+	if (!first_name || !last_name || !email || !username || !password || !iin) {
 		return res
 			.status(400)
 			.json({ message: "All fields except avatar are required" })
 	}
 
+	if (!/^\d{12}$/.test(iin)) {
+		return res.status(400).json({ message: "IIN must be 12 digits" })
+	}
+
 	try {
-		const existingUser = await User.findOne({ $or: [{ email }, { username }] })
+		const existingUser = await User.findOne({
+			$or: [{ email }, { username }, { iin }],
+		})
 		if (existingUser) {
 			return res
 				.status(400)
-				.json({ message: "Email or username already exists" })
+				.json({ message: "Email, username or IIN already exists" })
 		}
 
 		const hashedPassword = await bcrypt.hash(password, 10)
@@ -29,6 +36,7 @@ router.post("/register", async (req, res) => {
 			last_name,
 			email,
 			username,
+			iin,
 			avatar,
 			password: hashedPassword,
 		})
@@ -39,7 +47,15 @@ router.post("/register", async (req, res) => {
 			process.env.JWT_SECRET,
 			{ expiresIn: "1h" }
 		)
-		res.status(201).json({ message: "User registered successfully", token })
+
+		const userWithoutPassword = await User.findById(user._id).select(
+			"-password"
+		)
+		res.status(201).json({
+			message: "User registered successfully",
+			token,
+			user: userWithoutPassword,
+		})
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message })
 	}
@@ -82,7 +98,9 @@ router.get("/me", authenticateToken, async (req, res) => {
 
 		res.json(user)
 	} catch (error) {
-		res.status(500).json({ message: "Server error", error: error.message })
+		res
+			.status(500)
+			.json({ message: "Internal Server Error", error: error.message })
 	}
 })
 
