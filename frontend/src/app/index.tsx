@@ -9,6 +9,16 @@ function App() {
       <Route {...RegisterRoutes} />
       <Route {...LoginRoutes} />
       <Route path="/explore/trending" element={<Trending />} />
+      <Route
+        path="*"
+        element={
+          <div className="text-center flex flex-row items-center justify-center gap-2">
+            <h1 className="text-2xl font-bold">404</h1>
+            <span className="text-2xl font-bold">|</span>
+            <p className="text-xl">Page not found</p>
+          </div>
+        }
+      />
     </Routes>
   )
 }
