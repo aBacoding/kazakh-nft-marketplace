@@ -28,8 +28,6 @@ import { formSchema } from '../model/schema'
 import { useRegister } from '../shared/api/register'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { RegisterFormData } from '../model/types'
-import { useDispatch } from 'react-redux'
-import { setUser } from '@/modules/register/store/slice'
 import Cookies from 'js-cookie'
 
 export const RegisterCard = () => {
@@ -52,15 +50,12 @@ export const RegisterCard = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [acceptTerms, setAcceptTerms] = useState(false)
 
-  const dispatch = useDispatch()
 
   const { mutate: registerUser, isPending } = useRegister({
     onSuccess: async (response) => {
       if (response.token) {
         Cookies.set('token', response.token, { expires: 7 })
       }
-
-      dispatch(setUser(response.user))
 
       toast.success('Registration successful')
 
