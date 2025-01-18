@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const navigate = useNavigate()
-  const user = useSelector((state: RootState) => state.register.user)
+  const { user } = useSelector((state: RootState) => state.profile)
   const token = Cookies.get('token')
   const { state } = useSidebar()
 
@@ -34,8 +34,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={sidebarData.navMain as any} />
       </SidebarContent>
       <SidebarFooter>
-        {user && token ? (
-          <NavUser user={user as any} />
+        {token && user ? (
+          <NavUser user={user} />
         ) : state === 'expanded' ? (
           <div className="flex flex-col gap-2">
             <span className="italic text-muted-foreground text-sm">

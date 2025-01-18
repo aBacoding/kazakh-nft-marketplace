@@ -2,9 +2,25 @@ import { Route, Routes } from 'react-router-dom'
 import { RegisterRoutes } from '@/modules/register/model/routes'
 import { Trending } from '../pages/trend/ui/Trending'
 import { LoginRoutes } from '@/modules/login/model/routes'
-import { ProfileRoutes } from '@/modules/profile'
+import { ProfileRoutes, setUser } from '@/modules/profile'
+import { useGetUser } from '@/entities/profile/shared'
+import Cookies from 'js-cookie'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 function App() {
+  const dispatch = useDispatch()
+  const token = Cookies.get('token')
+  const { data } = useGetUser({
+    enabled: !!token,
+  })
+
+  useEffect(() => {
+    if (!!token && data) {
+      dispatch(setUser(data))
+    }
+  }, [data, token])
+
   return (
     <Routes>
       <Route {...RegisterRoutes} />

@@ -25,8 +25,6 @@ import { formSchema } from '../model/schema'
 import { useLogin } from '../shared/api/login'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { LoginFormData } from '../model/types'
-import { useDispatch } from 'react-redux'
-import { setUser } from '@/modules/register/store/slice'
 import Cookies from 'js-cookie'
 
 export const LoginCard = () => {
@@ -41,15 +39,12 @@ export const LoginCard = () => {
 
   const [showPassword, setShowPassword] = useState(false)
 
-  const dispatch = useDispatch()
 
   const { mutate: loginUser, isPending } = useLogin({
     onSuccess: async (response) => {
       if (response.token) {
         Cookies.set('token', response.token, { expires: 7 })
       }
-
-      dispatch(setUser(response.user))
 
       toast.success('Login successful')
 

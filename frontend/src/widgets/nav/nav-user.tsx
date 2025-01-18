@@ -20,27 +20,19 @@ import {
 import { getInitials } from '@/shared/lib/utils'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import { setUser } from '@/modules/profile'
 import { useDispatch } from 'react-redux'
-import { clearUser } from '@/modules/register'
+import { UserData } from '@/entities/profile/shared'
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    first_name: string
-    last_name: string
-    email: string
-    avatar: string
-  }
-}) {
-  const dispatch = useDispatch()
+export function NavUser({ user }: { user: UserData }) {
   const { isMobile } = useSidebar()
+  const dispatch = useDispatch()
 
   const navigate = useNavigate()
 
   const handleLogout = () => {
     Cookies.remove('token')
-    dispatch(clearUser())
+    dispatch(setUser(null))
   }
 
   return (
