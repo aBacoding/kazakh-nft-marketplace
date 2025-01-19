@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import store from '@/app/store/store'
 import { useTitle } from 'ahooks'
 import { useLocation } from 'react-router-dom'
-import { ActionButtons } from '@/widgets/action-buttons/action-buttons'
+import { ModeToggle } from '@/widgets/mode-toggle/mode-toggle'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation()
@@ -41,10 +41,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           <SidebarProvider>
             <AppSidebar />
-            <main className="flex flex-col gap-4 w-full min-h-screen">
+            <main className="flex flex-col gap-4 w-full min-h-screen p-2">
               <header className="flex flex-row justify-between items-center h-fit w-full p-3 sticky top-0 z-10 bg-background">
                 <SidebarTrigger />
-                <ActionButtons />
+                <ModeToggle />
               </header>
               <div className="w-full px-2 pb-4 relative">{children}</div>
             </main>

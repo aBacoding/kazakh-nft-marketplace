@@ -19,20 +19,21 @@ import {
 } from '@/shared/ui/native/sidebar'
 import { getInitials } from '@/shared/lib/utils'
 import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { setUser } from '@/modules/profile'
+import { useDispatch } from 'react-redux'
+import { UserData } from '@/entities/profile/shared'
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    first_name: string
-    last_name: string
-    email: string
-    avatar: string
-  }
-}) {
+export function NavUser({ user }: { user: UserData }) {
   const { isMobile } = useSidebar()
+  const dispatch = useDispatch()
 
   const navigate = useNavigate()
+
+  const handleLogout = () => {
+    Cookies.remove('token')
+    dispatch(setUser(null))
+  }
 
   return (
     <SidebarMenu>
@@ -91,7 +92,7 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

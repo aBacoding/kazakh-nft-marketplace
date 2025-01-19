@@ -28,8 +28,6 @@ import { formSchema } from '../model/schema'
 import { useRegister } from '../shared/api/register'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { RegisterFormData } from '../model/types'
-import { useDispatch } from 'react-redux'
-import { setUser } from '@/modules/register/store/slice'
 import Cookies from 'js-cookie'
 
 export const RegisterCard = () => {
@@ -52,15 +50,12 @@ export const RegisterCard = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [acceptTerms, setAcceptTerms] = useState(false)
 
-  const dispatch = useDispatch()
 
   const { mutate: registerUser, isPending } = useRegister({
     onSuccess: async (response) => {
       if (response.token) {
         Cookies.set('token', response.token, { expires: 7 })
       }
-
-      dispatch(setUser(response.user))
 
       toast.success('Registration successful')
 
@@ -79,7 +74,7 @@ export const RegisterCard = () => {
       navigate('/')
     },
     onError: (error) => {
-      toast.error(error.message)
+      toast.error(error?.['response']?.data?.message)
     },
   })
 
@@ -113,7 +108,7 @@ export const RegisterCard = () => {
     registerUser(formData)
   }
 
-  if (localStorage.getItem('token')) {
+  if (Cookies.get('token')) {
     return <Navigate to="/" replace />
   }
 
