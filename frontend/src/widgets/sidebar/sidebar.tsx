@@ -37,26 +37,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {token && user ? (
           <NavUser user={user} />
         ) : state === 'expanded' ? (
-          <div className="flex flex-col gap-2">
-            <span className="italic text-muted-foreground text-sm">
-              There's no account?
-            </span>
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                type="button"
-                className="flex items-center justify-center"
-                onClick={() => navigate('/sign/in')}
-              >
-                Sign In <LogIn size={16} />
-              </Button>
-              <Button
-                type="button"
-                className="flex items-center justify-center"
-                onClick={() => navigate('/sign/up')}
-              >
-                Sign Up <UserRoundPlus size={16} />
-              </Button>
-            </div>
+          <div className="grid grid-cols-2 gap-3">
+            <Button
+              type="button"
+              className="flex items-center justify-center"
+              onClick={() => navigate('/sign/in')}
+            >
+              Sign In <LogIn size={16} />
+            </Button>
+            <Button
+              type="button"
+              className="flex items-center justify-center"
+              onClick={() => navigate('/sign/up')}
+            >
+              Sign Up <UserRoundPlus size={16} />
+            </Button>
           </div>
         ) : (
           <div className="flex flex-col gap-3">

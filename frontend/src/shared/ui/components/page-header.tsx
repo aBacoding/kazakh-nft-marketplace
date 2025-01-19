@@ -14,7 +14,7 @@ export const PageHeader: FC<PageHeaderProps> = (props) => {
 
   return (
     <Card className="border-slate-100">
-      <CardContent className="p-4 flex flex-col gap-2 relative card-title ">
+      <CardContent className="p-4 flex flex-col gap-2 relative card-title">
         <BreadcrumbComplex list={breadcrumbs} />
         <p className="text-foreground py-2 text-3xl font-semibold leading-9">
           {title}

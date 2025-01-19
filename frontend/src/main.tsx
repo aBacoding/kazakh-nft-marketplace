@@ -14,6 +14,7 @@ import AuthLayout from './shared/ui/layouts/auth'
 import NotFoundLayout from './shared/ui/layouts/not-found'
 import { RegisterRoutes } from '@/modules/register/model/routes'
 import { LoginRoutes } from '@/modules/login/model/routes'
+import { ProfileRoutes } from './modules/profile'
 
 const validPaths = [
   // TODO: remove '/' soon after home page is implemented
@@ -21,6 +22,7 @@ const validPaths = [
   '/explore/trending',
   RegisterRoutes.path,
   LoginRoutes.path,
+  ProfileRoutes.path,
 ]
 
 const AppWithLayouts = () => {
