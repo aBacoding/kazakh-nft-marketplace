@@ -28,6 +28,7 @@ function App() {
             <Route {...ProfileRoutes} />
             <Route {...TrendingRoutes}/>
             {/* TODO: add home page */}
+
             <Route path="/" element={<></>}/>
             <Route
                 path="*"
