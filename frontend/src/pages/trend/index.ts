@@ -1,1 +1,1 @@
-export { Trending } from './ui/Trending';
+export * as Trending from './ui/Trending';
