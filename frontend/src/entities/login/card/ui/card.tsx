@@ -39,7 +39,6 @@ export const LoginCard = () => {
 
   const [showPassword, setShowPassword] = useState(false)
 
-
   const { mutate: loginUser, isPending } = useLogin({
     onSuccess: async (response) => {
       if (response.token) {
@@ -138,7 +137,26 @@ export const LoginCard = () => {
                   )}
                 />
               </div>
-              <div className="flex flex-row gap-3">
+              <div className="!mt-1 flex flex-row justify-between gap-2">
+                <Button
+                  variant="link"
+                  className="!text-muted-foreground !p-0"
+                  type="button"
+                  onClick={() => navigate('/sign/up')}
+                >
+                  Sign up?
+                </Button>
+                <Button
+                  variant="link"
+                  className="!text-muted-foreground !p-0"
+                  type="button"
+                  // TODO: Implement forgot password
+                  onClick={() => console.log('forgot password')}
+                >
+                  Forgot password?
+                </Button>
+              </div>
+              <div className="flex flex-row gap-3 !mt-3">
                 <Button
                   type="button"
                   variant="outline"

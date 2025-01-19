@@ -25,22 +25,6 @@ export const sidebarData = {
           title: 'Trending',
           url: '/explore/trending',
         },
-        {
-          title: 'My Liked NFTs',
-          url: '/explore/my-liked-nfts',
-        },
-        {
-          title: 'My NFTs',
-          url: '/explore/my-nfts',
-        },
-        {
-          title: 'My Collections',
-          url: '/explore/my-collections',
-        },
-        {
-          title: 'My Bids',
-          url: '/explore/my-bids',
-        },
       ],
     },
     {

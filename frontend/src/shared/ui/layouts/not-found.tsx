@@ -18,7 +18,7 @@ export default function NotFoundLayout({
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <main className="flex flex-col w-full min-h-screen">
+          <main className="flex flex-col w-full min-h-screen p-2">
             <header className="flex flex-row justify-end items-center h-fit w-full p-3 sticky top-0 z-10 bg-background">
               <ModeToggle />
             </header>

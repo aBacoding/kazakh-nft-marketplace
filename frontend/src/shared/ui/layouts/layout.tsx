@@ -41,7 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           <SidebarProvider>
             <AppSidebar />
-            <main className="flex flex-col gap-4 w-full min-h-screen">
+            <main className="flex flex-col gap-4 w-full min-h-screen p-2">
               <header className="flex flex-row justify-between items-center h-fit w-full p-3 sticky top-0 z-10 bg-background">
                 <SidebarTrigger />
                 <ModeToggle />
