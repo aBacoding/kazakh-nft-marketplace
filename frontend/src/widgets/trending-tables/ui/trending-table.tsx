@@ -1,34 +1,19 @@
 import {
     ColumnDef,
     ColumnFiltersState,
-    VisibilityState,
     flexRender,
-    SortingState,
     getCoreRowModel,
+    getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
-    getFilteredRowModel,
+    SortingState,
     useReactTable,
+    VisibilityState,
 } from "@tanstack/react-table"
-import { Button } from "@/shared/ui/native/button"
-import { Input } from "@/shared/ui/native/input"
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/shared/ui/native/table"
-
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/shared/ui/native/dropdown"
-
-import { useState } from "react"
+import {Button} from "@/shared/ui/native/button"
+import {Input} from "@/shared/ui/native/input"
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/shared/ui/native/table"
+import {useState} from "react"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -36,9 +21,9 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({
-    columns,
-    data,
-}: DataTableProps<TData, TValue>) {
+                                             columns,
+                                             data,
+                                         }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
         []
@@ -61,127 +46,98 @@ export function DataTable<TData, TValue>({
         },
         initialState: {
             pagination: {
-                pageSize: 5,
+                pageSize: 20,
             },
         },
     })
 
 
     return (
-
-        <div className="rounded-md border m-auto">
-            <div className="flex p-10">
+        <div>
+            <div className="mb-5">
                 <Input
-                    placeholder="Filter emails..."
-                    value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                    placeholder="Search Collections"
+                    value={(table.getColumn("collection")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("email")?.setFilterValue(event.target.value)
+                        table.getColumn("collection")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter(
-                                (column) => column.getCanHide()
-                            )
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
 
-            <Table>
-                <TableHeader>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => {
-                                return (
-                                    <TableHead key={header.id}>
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
-                                    </TableHead>
-                                )
-                            })}
-                        </TableRow>
-                    ))}
-                </TableHeader>
-                <TableBody>
-                    {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                            >
-                                {row.getVisibleCells().map((cell, index) => (
-                                    <TableCell className="p-2 font-medium text-base" key={cell.id}>
-                                        {index === 0 ? (
-                                            <div className="flex items-center">
-                                                <img
-                                                    src={cell.getValue() as string}
-                                                    alt="Profile"
-                                                    className="w-10 h-20 rounded-full mr-3"
-                                                />
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                            </div>
-                                        ) : (
-                                            flexRender(cell.column.columnDef.cell, cell.getContext())
-                                        )}
-                                    </TableCell>
-                                ))}
+            <div className="rounded-md border m-auto">
+
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+
+                                    return (
+                                        <TableHead key={header.id}>
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                        </TableHead>
+                                    )
+                                })}
                             </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No results.
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
+                                >
+                                    {row.getVisibleCells().map((cell, index) => (
+                                        <TableCell className="p-4 text-base font-normal" key={cell.id}>
 
-            <div className="flex items-center justify-center space-x-2 py-4">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    No results.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+
+                <div className="flex space-x-2 py-4 px-4 justify-end items-center">
+
+                <span className="text-sm">
+                    Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()} | Total items: {table.getFilteredRowModel().rows.length}
+                    </span>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Next
+                    </Button>
+                </div>
+
             </div>
-
         </div>
     )
 }

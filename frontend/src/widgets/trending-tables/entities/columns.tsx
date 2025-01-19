@@ -1,35 +1,105 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal, ArrowUpDown } from "lucide-react"
-import { Button } from "@/shared/ui/native/button"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/shared/ui/native/dropdown"
+import {ColumnDef} from "@tanstack/react-table"
+import {DataTableColumnHeader} from "@/shared/ui/native/DataTableColumnHeader.tsx";
+import {DataTableColumnCell} from "@/shared/ui/native/DataTableColumnCell.tsx";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
+export interface INftData {
     id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
+    rank: number
+    collection: string,
+    thumb: "https://assets.coingecko.com/nft_contracts/images/3610/standard/chameleon-travel-club.png"
+    floorPrice: number,
+    volume: number,
+    items: number,
+    owner: number
 }
 
-export const columns: ColumnDef<Payment>[] = [
+const formatNumber = (value: number): string => {
+    if (value >= 1000) {
+
+        return (value / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+    }
+    return value.toString();
+}
+export const columns: ColumnDef<INftData>[] = [
 
     {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: "rank",
+        header: "#"
     },
     {
-        accessorKey: "email",
-        header: ({ column }) => {
+        accessorKey: "collection",
+        header: "Collection",
+        cell: ({row}) => {
+            const collectionName = row.getValue<string>("collection");
+            const thumbUrl = row.original.thumb;
+            return (
+                <div className="flex items-center">
+                    <img
+                        src={thumbUrl}
+                        alt={collectionName}
+                        className="w-8 h-8 rounded-full mr-2"
+                    />
+                    <span>{collectionName}</span>
+                </div>
+            );
+        },
+    },
+
+    {
+        accessorKey: "floorPrice",
+        header:
+            ({column}) => <DataTableColumnHeader column={column} title={"Floor Price"}/>,
+        cell:
+            ({row}) => <DataTableColumnCell row={row} title={"floorPrice"}/>
+    }
+    ,
+
+    {
+        accessorKey: "volume",
+        header:
+            ({column}) => <DataTableColumnHeader column={column} title={"Volume"}/>,
+        cell:
+            ({row}) => <DataTableColumnCell row={row} title={"volume"}/>
+    }
+    ,
+
+    {
+        accessorKey: "owner",
+        header:
+            ({column}) => <DataTableColumnHeader column={column} title={"Owner"}/>,
+        cell:
+            ({row}) => {
+                const ownerCount = row.getValue<number>("owner");
+                const formatted = formatNumber(ownerCount);
+                return (
+                    <div className="text-right">
+                        {formatted}
+                    </div>
+                )
+            }
+    }
+    ,
+    {
+        accessorKey: "items",
+        header:
+            ({column}) => <DataTableColumnHeader column={column} title={"Items"}/>,
+        cell:
+            ({row}) => {
+                const ownerCount = row.getValue<number>("items");
+                const formatted = formatNumber(ownerCount);
+                return (
+                    <div className="text-right">
+                        {formatted}
+                    </div>
+                )
+            }
+
+    }
+    /*{
+        "accessorKey": "email",
+        "header": ({ column }) => {
             return (
                 <Button
                     variant="ghost"
@@ -42,44 +112,19 @@ export const columns: ColumnDef<Payment>[] = [
         },
     },
     {
-        accessorKey: "amount",
-        header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => {
+        "accessorKey": "amount",
+        "header": () => <div className="text-right">Amount</div>,
+        "cell": ({ row }) => {
             const amount = parseFloat(row.getValue("amount"))
             const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
+                "style": "currency",
+                "currency": "USD",
             }).format(amount)
 
             return <div className="text-right font-medium">{formatted}</div>
         },
     },
-    // {
-    //     id: "actions",
-    //     cell: ({ row }) => {
-    //         const payment = row.original
 
-    //         return (
-    //             <DropdownMenu>
-    //                 <DropdownMenuTrigger asChild>
-    //                     <Button variant="ghost" className="h-8 w-8 p-0">
-    //                         <span className="sr-only">Open menu</span>
-    //                         <MoreHorizontal className="h-4 w-4" />
-    //                     </Button>
-    //                 </DropdownMenuTrigger>
-    //                 <DropdownMenuContent align="end">
-    //                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    //                     <DropdownMenuItem
-    //                         onClick={() => navigator.clipboard.writeText(payment.id)}
-    //                     >
-    //                         Copy payment ID
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuSeparator />
-    //                     <DropdownMenuItem>View customer</DropdownMenuItem>
-    //                     <DropdownMenuItem>View payment details</DropdownMenuItem>
-    //                 </DropdownMenuContent>
-    //             </DropdownMenu>
-    //         )
-    //     },
-    // },
+
+     */
 ]
