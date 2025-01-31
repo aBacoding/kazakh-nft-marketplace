@@ -128,6 +128,44 @@
  *         description: Unauthorized
  */
 
+/**
+ * @swagger
+ * /api/auth/profile:
+ *   patch:
+ *     summary: Update user profile
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               first_name:
+ *                 type: string
+ *               last_name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               username:
+ *                 type: string
+ *               avatar:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Profile updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
+
 const express = require("express")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
@@ -240,5 +278,54 @@ router.get("/me", authenticateToken, async (req, res) => {
 			.json({ message: "Internal Server Error", error: error.message })
 	}
 })
+
+router.patch("/profile", authenticateToken, async (req, res) => {
+    const { first_name, last_name, email, username, avatar } = req.body;
+    const updateData = {};
+
+    // Only add fields that are present in the request
+    if (first_name) updateData.first_name = first_name;
+    if (last_name) updateData.last_name = last_name;
+    if (email) updateData.email = email;
+    if (username) updateData.username = username;
+    if (avatar !== undefined) updateData.avatar = avatar;
+
+    try {
+        // Check if email or username already exists
+        if (email || username) {
+            const existingUser = await User.findOne({
+                $and: [
+                    { _id: { $ne: req.user.id } },
+                    {
+                        $or: [
+                            ...(email ? [{ email }] : []),
+                            ...(username ? [{ username }] : [])
+                        ]
+                    }
+                ]
+            });
+
+            if (existingUser) {
+                return res.status(400).json({
+                    message: "Email or username already exists"
+                });
+            }
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user.id,
+            { $set: updateData },
+            { new: true }
+        ).select("-password");
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+});
 
 module.exports = router

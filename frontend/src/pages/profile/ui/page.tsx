@@ -1,4 +1,9 @@
-import { InfoCard, MenuCard, ProfileHeader } from '@/entities/profile'
+import {
+  EditProfileModal,
+  InfoCard,
+  MenuCard,
+  ProfileHeader,
+} from '@/entities/profile'
 import Cookies from 'js-cookie'
 import { Navigate } from 'react-router-dom'
 
@@ -20,6 +25,7 @@ export const ProfilePage = () => {
           <MenuCard />
         </div>
       </div>
+      <EditProfileModal />
     </div>
   )
 }
