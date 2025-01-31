@@ -33,6 +33,7 @@ export function NavUser({ user }: { user: UserData }) {
   const handleLogout = () => {
     Cookies.remove('token')
     dispatch(setUser(null))
+    navigate('/')
   }
 
   return (
@@ -46,6 +47,7 @@ export function NavUser({ user }: { user: UserData }) {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
+                  className="object-cover"
                   src={user.avatar}
                   alt={user.first_name + ' ' + user.last_name}
                 />
@@ -72,9 +74,9 @@ export function NavUser({ user }: { user: UserData }) {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
+                    className="object-cover cursor-pointer"
                     src={user.avatar}
                     alt={user.first_name + ' ' + user.last_name}
-                    className="cursor-pointer"
                     onClick={() => {
                       navigate('/profile')
                     }}
