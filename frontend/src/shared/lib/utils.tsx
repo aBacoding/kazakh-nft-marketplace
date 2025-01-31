@@ -1,5 +1,6 @@
 import { ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { format } from 'date-fns'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -50,4 +51,13 @@ export const fileToBase64 = (file: File): Promise<string> => {
     reader.onload = () => resolve(reader.result as string)
     reader.onerror = (error) => reject(error)
   })
+}
+
+export const formatDate = (dateString: string | undefined) => {
+  if (!dateString) return 'Not available'
+  try {
+    return format(new Date(dateString), 'MMMM d, yyyy')
+  } catch (error) {
+    return 'Invalid date'
+  }
 }

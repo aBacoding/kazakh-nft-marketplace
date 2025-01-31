@@ -8,4 +8,5 @@ export interface UserData {
   password?: string
   password_confirm?: string
   identifier?: string
+  createdAt?: string
 }
