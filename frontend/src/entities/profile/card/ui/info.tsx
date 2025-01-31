@@ -20,7 +20,7 @@ export const InfoCard = () => {
       <Card>
         <CardHeader className="flex flex-row items-center gap-4 space-y-0">
           <Avatar className="h-24 w-24 border-[1px] border-foreground">
-            <AvatarImage src={user?.avatar} className="object-cover" />
+            <AvatarImage src={user?.avatar || ''} className="object-cover" />
             <AvatarFallback>
               {getInitials(user?.first_name + ' ' + user?.last_name)}
             </AvatarFallback>
@@ -48,7 +48,11 @@ export const InfoCard = () => {
             </div>
             <div className="flex items-center gap-2">
               <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-              <span>Joined: {formatDate(user?.createdAt)}</span>
+              <span>Joined at: {formatDate(user?.createdAt)}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+              <span>Updated at: {formatDate(user?.updatedAt)}</span>
             </div>
           </div>
         </CardContent>

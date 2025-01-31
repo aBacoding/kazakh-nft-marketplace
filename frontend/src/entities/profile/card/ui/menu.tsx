@@ -34,8 +34,6 @@ export const MenuCard = () => {
     setSearchParams(params)
   }
 
-  console.log(generalMenu.map((item) => item.to.split('=')[1]))
-
   return (
     <Card className="p-4 sticky top-0 z-5">
       <ul className="flex flex-col gap-2">

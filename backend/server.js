@@ -46,12 +46,19 @@ app.use(bodyParser.json({ limit: "50mb" }))
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }))
 
 app.use(
-	cors({
-		origin: process.env.FRONTEND_URL,
-		credentials: true,
-		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-		allowedHeaders: ["Content-Type", "Authorization"],
-	})
+    cors({
+        origin: process.env.FRONTEND_URL,
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: [
+            "Content-Type", 
+            "Authorization", 
+            "X-Requested-With",
+            "Accept",
+            "Origin"
+        ],
+        exposedHeaders: ["Content-Range", "X-Content-Range"]
+    })
 )
 
 app.use("/api/auth", authRoutes)

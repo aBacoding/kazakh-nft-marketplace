@@ -1,5 +1,5 @@
 export interface UserData {
-  avatar?: string
+  avatar?: string | null
   first_name?: string
   last_name?: string
   email?: string
@@ -9,4 +9,5 @@ export interface UserData {
   password_confirm?: string
   identifier?: string
   createdAt?: string
+  updatedAt?: string
 }

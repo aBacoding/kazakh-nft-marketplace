@@ -1,12 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserData } from '@/entities/profile'
 
-interface User {
+interface ProfileState {
   user: UserData | null
+  editProfileModal: {
+    state: boolean
+    data: null
+  }
 }
 
-const initialState: User = {
+const initialState: ProfileState = {
   user: null,
+  editProfileModal: {
+    state: false,
+    data: null,
+  },
 }
 
 export const profileSlice = createSlice({
@@ -19,9 +27,15 @@ export const profileSlice = createSlice({
     clearUser: (state) => {
       state.user = null
     },
+    setEditProfileModal: (
+      state,
+      action: PayloadAction<{ state: boolean; data: any }>
+    ) => {
+      state.editProfileModal = action.payload
+    },
   },
 })
 
-export const { setUser, clearUser } = profileSlice.actions
+export const { setUser, clearUser, setEditProfileModal } = profileSlice.actions
 
 export default profileSlice
